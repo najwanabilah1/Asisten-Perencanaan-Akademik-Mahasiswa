@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f8fc" />
+    <meta
+      name="description"
+      content="SmartStudy membantu mahasiswa mengatur tugas, deadline, dan kegiatan akademik."
+    />
+    <title>SmartStudy — Atur kuliah, lebih tenang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navigasi utama">
+        <a class="brand" href="#" aria-label="SmartStudy beranda">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 8.5 12 4l8 4.5-8 4.5L4 8.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M7 10.3v5.1c2.9 2.2 7.1 2.2 10 0v-5.1M20 9v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span>smart<span class="brand-accent">study</span></span>
+        </a>
+
+        <div class="sidebar-label">MENU UTAMA</div>
+        <nav class="nav-links">
+          <a class="nav-link active" href="#dashboard" data-view="dashboard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>
+            Ringkasan
+          </a>
+          <a class="nav-link" href="#tasks-page" data-view="task-list">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h12M8 12h12M8 19h12"/><path d="m3.5 5 .8.8L6 4M3.5 12l.8.8L6 11M3.5 19l.8.8L6 18"/></svg>
+            Daftar tugas
+            <span class="nav-count" id="nav-task-count">0</span>
+          </a>
+          <a class="nav-link" href="#schedule-page" data-view="schedule">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2M8 3.8 6.5 5M16 3.8 17.5 5"/></svg>
+            Jadwal kuliah
+          </a>
+        </nav>
+
+        <div class="sidebar-label courses-label">MATA KULIAH</div>
+        <div class="course-list" id="course-list"></div>
+
+        <div class="sidebar-bottom">
+          <div class="focus-card">
+            <span class="focus-sparkle" aria-hidden="true">✦</span>
+            <strong>Langkah kecil, hasil besar.</strong>
+            <p>Fokus pada satu tugas, lalu lanjutkan ke berikutnya.</p>
+            <div class="focus-decoration" aria-hidden="true"></div>
+          </div>
+          <div class="profile">
+            <div class="avatar">M</div>
+            <div class="profile-copy">
+              <strong>Mahasiswa</strong>
+              <span>Semester ini</span>
+            </div>
+            <span class="profile-dots" aria-hidden="true">•••</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content" id="dashboard">
+        <header class="topbar">
+          <button class="mobile-brand" type="button" aria-label="SmartStudy">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8.5 12 4l8 4.5-8 4.5L4 8.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 10.3v5.1c2.9 2.2 7.1 2.2 10 0v-5.1M20 9v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>smart<span class="brand-accent">study</span></span>
+          </button>
+          <div class="breadcrumb"><span>Ruang belajar</span><span class="breadcrumb-divider">/</span><strong>Ringkasan</strong></div>
+          <div class="topbar-actions">
+            <button class="mobile-schedule-link" id="mobile-tasks-button" type="button">Daftar tugas</button>
+            <button class="mobile-schedule-link" id="mobile-schedule-button" type="button">Jadwal kuliah</button>
+            <button class="icon-button notification-button" id="notification-button" type="button" aria-label="Aktifkan pengingat deadline" title="Aktifkan pengingat browser">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg>
+              <span class="notification-dot" id="notification-dot"></span>
+            </button>
+            <div class="topbar-date" id="today-label"></div>
+            <div class="avatar top-avatar">M</div>
+          </div>
+        </header>
+
+        <div class="page-content" data-page="dashboard">
+          <section class="welcome-row">
+            <div>
+              <p class="eyebrow" id="greeting">SELAMAT DATANG</p>
+              <h1>Rencanakan dengan tenang<span class="heading-period">.</span></h1>
+              <p class="welcome-subtitle">Semua jadwal dan tugasmu, dalam satu ruang.</p>
+            </div>
+            <button class="primary-button" id="add-task-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Tambah tugas
+            </button>
+          </section>
+
+          <section class="stats-grid" aria-label="Ringkasan tugas">
+            <button class="stat-card stat-card-action" type="button" data-task-view="all" aria-label="Lihat semua tugas">
+              <div class="stat-top"><span class="stat-icon lavender"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h12M8 12h12M8 19h12"/><path d="m3.5 5 .8.8L6 4M3.5 12l.8.8L6 11M3.5 19l.8.8L6 18"/></svg></span><span class="stat-caption">SEMUA TUGAS</span></div>
+              <div class="stat-bottom"><strong id="total-tasks">0</strong><span class="stat-note">tercatat</span></div>
+            </button>
+            <button class="stat-card stat-card-action" type="button" data-task-view="pending" aria-label="Lihat tugas yang belum selesai">
+              <div class="stat-top"><span class="stat-icon peach"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg></span><span class="stat-caption">SEGERA TENGGAT</span></div>
+              <div class="stat-bottom"><strong id="due-soon-tasks">0</strong><span class="stat-note">dalam 7 hari</span></div>
+            </button>
+            <button class="stat-card stat-card-action" type="button" data-task-view="completed" aria-label="Lihat tugas yang sudah selesai">
+              <div class="stat-top"><span class="stat-icon mint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4L19 7"/></svg></span><span class="stat-caption">SELESAI MINGGU INI</span></div>
+              <div class="stat-bottom"><strong id="completed-tasks">0</strong><span class="stat-note">tugas selesai</span></div>
+            </button>
+          </section>
+
+          <div class="dashboard-grid">
+            <div class="left-column">
+              <section class="panel progress-panel" aria-labelledby="progress-title">
+                <div class="panel-heading progress-heading">
+                  <div><p class="section-kicker">TETAP DI JALUR</p><h2 id="progress-title">Progres mingguan</h2></div>
+                  <span class="week-badge" id="week-range"></span>
+                </div>
+                <div class="progress-summary">
+                  <div class="progress-number"><strong id="weekly-percent">0%</strong><span>tugas selesai minggu ini</span></div>
+                  <div class="progress-track" role="progressbar" aria-label="Progres tugas minggu ini" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="weekly-progress-bar"><span id="weekly-progress-fill"></span></div>
+                  <p class="progress-footnote" id="weekly-progress-note">Tambahkan tugas untuk mulai merencanakan minggu ini.</p>
+                </div>
+                <div class="weekly-bars" id="weekly-bars" aria-label="Tugas selesai per hari"></div>
+              </section>
+
+              <section class="panel tasks-shortcut">
+                <span class="stat-icon lavender"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h12M8 12h12M8 19h12"/><path d="m3.5 5 .8.8L6 4M3.5 12l.8.8L6 11M3.5 19l.8.8L6 18"/></svg></span>
+                <div><p class="section-kicker">RUANG TUGASMU</p><h2>Daftar tugas kuliah</h2><p id="tasks-shortcut-note">Pantau tugas, deadline, dan progres dalam satu halaman.</p></div>
+                <button class="secondary-button" id="open-task-list" type="button">Buka daftar <span aria-hidden="true">→</span></button>
+              </section>
+            </div>
+
+            <aside class="right-column">
+              <section class="panel calendar-panel" id="calendar-section" aria-labelledby="calendar-title">
+                <div class="panel-heading calendar-heading">
+                  <div><p class="section-kicker">JADWALMU</p><h2 id="calendar-title">Kalender</h2></div>
+                  <div class="calendar-nav">
+                    <button class="calendar-arrow" id="calendar-prev" type="button" aria-label="Bulan sebelumnya">‹</button>
+                    <button class="calendar-arrow" id="calendar-next" type="button" aria-label="Bulan berikutnya">›</button>
+                  </div>
+                </div>
+                <div class="calendar-month-row"><span id="calendar-month"></span><button type="button" id="calendar-today">Hari ini</button></div>
+                <div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Kalender akademik"></div>
+                <div class="calendar-legend"><span><i class="legend-dot due-legend"></i>Tenggat</span><span><i class="legend-dot selected-legend"></i>Dipilih</span></div>
+                <div class="calendar-agenda">
+                  <div class="agenda-heading"><strong id="agenda-date">Agenda</strong><span id="agenda-count"></span></div>
+                  <div id="agenda-list"></div>
+                </div>
+              </section>
+
+              <section class="reminder-card" aria-labelledby="reminder-title">
+                <div class="reminder-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4m12.8 12.8 1.4 1.4M3 12h2m14 0h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="5"/></svg></div>
+                <div class="reminder-content"><p class="section-kicker">JANGAN TERLEWAT</p><h2 id="reminder-title">Pengingat deadline</h2><div id="reminder-list"></div></div>
+              </section>
+            </aside>
+          </div>
+          <footer class="page-footer"><span>Belajar teratur, melangkah lebih pasti.</span><span>Data tersimpan di perangkatmu <i class="local-indicator"></i></span></footer>
+        </div>
+
+        <section class="page-content workspace-page" id="tasks-page" data-page="task-list" hidden>
+          <div class="task-list-page-heading">
+            <div>
+              <button class="back-link" type="button" data-back-dashboard>← Kembali ke ringkasan</button>
+              <div class="form-page-intro">
+                <p class="eyebrow">RUANG BELAJARMU</p>
+                <h1>Daftar tugas<span class="heading-period">.</span></h1>
+                <p class="welcome-subtitle">Atur prioritas dan pantau tanggal pengumpulan setiap tugas.</p>
+              </div>
+            </div>
+            <button class="primary-button" id="task-list-add-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Tambah tugas</button>
+          </div>
+          <section class="panel tasks-panel task-list-page-panel" id="tasks-section" aria-labelledby="tasks-title">
+            <div class="panel-heading tasks-heading">
+              <div><p class="section-kicker">DAFTAR PRIORITAS</p><h2 id="tasks-title">Tugas kuliah <span class="heading-count" id="visible-task-count">0</span></h2></div>
+            </div>
+            <div class="filter-row">
+              <label class="filter-control">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+                <select id="course-filter" aria-label="Filter mata kuliah"><option value="all">Semua mata kuliah</option></select>
+              </label>
+              <label class="filter-control status-filter">
+                <select id="status-filter" aria-label="Filter status tugas">
+                  <option value="all">Semua status</option>
+                  <option value="pending">Belum selesai</option>
+                  <option value="completed">Selesai</option>
+                  <option value="overdue">Terlambat</option>
+                </select>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+              </label>
+            </div>
+            <div class="task-list" id="task-list"></div>
+          </section>
+        </section>
+
+        <section class="page-content workspace-page" id="task-page" data-page="task" hidden>
+          <button class="back-link" type="button" id="task-form-back">← Kembali ke daftar tugas</button>
+          <div class="form-page-intro">
+            <p class="eyebrow">RUANG BELAJARMU</p>
+            <h1>Tambah tugas<span class="heading-period">.</span></h1>
+            <p class="welcome-subtitle">Catat detail tugas dan tentukan tanggal pengumpulannya secara terpisah.</p>
+          </div>
+          <div class="form-page-card">
+            <div class="form-steps" aria-label="Langkah pengisian tugas">
+              <div class="form-step active" id="task-step-indicator-1"><span>1</span><div><strong>Detail tugas</strong><small>Nama dan mata kuliah</small></div></div>
+              <i aria-hidden="true"></i>
+              <div class="form-step" id="task-step-indicator-2"><span>2</span><div><strong>Pengumpulan</strong><small>Tanggal dan waktu</small></div></div>
+            </div>
+            <form id="task-details-form" class="step-form">
+              <div class="form-section-title"><span>01</span><div><h2>Informasi tugas</h2><p>Masukkan informasi yang membantumu mengenali tugas ini.</p></div></div>
+              <label class="form-field">Nama tugas<input type="text" name="title" maxlength="100" placeholder="Contoh: Makalah penelitian kelompok" required /></label>
+              <label class="form-field">Mata kuliah<input type="text" name="course" list="course-options" maxlength="50" placeholder="Contoh: Metodologi Penelitian" required /><datalist id="course-options"></datalist></label>
+              <label class="form-field">Detail tugas <span class="optional-label">(opsional)</span><textarea name="notes" rows="4" maxlength="300" placeholder="Instruksi, format berkas, atau catatan penting lainnya"></textarea></label>
+              <div class="form-page-actions"><button class="secondary-button" type="button" data-back-dashboard>Batal</button><button class="primary-button" type="submit">Lanjut ke pengumpulan <span aria-hidden="true">→</span></button></div>
+            </form>
+            <form id="task-deadline-form" class="step-form" hidden>
+              <div class="form-section-title"><span>02</span><div><h2>Tanggal pengumpulan</h2><p>Tentukan kapan tugas ini harus dikumpulkan.</p></div></div>
+              <div class="task-preview" id="task-preview"></div>
+              <div class="form-grid">
+                <label class="form-field">Tanggal pengumpulan<input type="date" name="dueDate" required /></label>
+                <label class="form-field">Waktu pengumpulan <span class="optional-label">(opsional)</span><input type="time" name="dueTime" /></label>
+              </div>
+              <div class="deadline-hint">Pengingat dan kalender akan mengikuti tanggal yang kamu pilih.</div>
+              <div class="form-page-actions"><button class="secondary-button" type="button" id="task-step-back">← Kembali</button><button class="primary-button" type="submit">Simpan tugas</button></div>
+            </form>
+          </div>
+        </section>
+
+        <section class="page-content workspace-page" id="schedule-page" data-page="schedule" hidden>
+          <button class="back-link" type="button" data-back-dashboard>← Kembali ke ringkasan</button>
+          <div class="form-page-intro">
+            <p class="eyebrow">SEMESTER INI</p>
+            <h1>Jadwal kuliah<span class="heading-period">.</span></h1>
+            <p class="welcome-subtitle">Simpan jadwal rutin agar kelas dan tenggat terlihat berdampingan.</p>
+          </div>
+          <div class="schedule-layout">
+            <form id="schedule-form" class="form-page-card schedule-form">
+              <div class="form-section-title"><span>✦</span><div><h2>Tambah jadwal kuliah</h2><p>Jadwal berulang setiap minggu di hari yang dipilih.</p></div></div>
+              <label class="form-field">Nama mata kuliah<input type="text" name="course" maxlength="50" placeholder="Contoh: Pemrograman Web" required /></label>
+              <div class="form-grid">
+                <label class="form-field">Hari kuliah<select name="day" required><option value="">Pilih hari</option><option value="1">Senin</option><option value="2">Selasa</option><option value="3">Rabu</option><option value="4">Kamis</option><option value="5">Jumat</option><option value="6">Sabtu</option><option value="0">Minggu</option></select></label>
+                <label class="form-field">Ruang kelas<input type="text" name="room" maxlength="40" placeholder="Contoh: Gedung A · 203" /></label>
+              </div>
+              <div class="form-grid">
+                <label class="form-field">Waktu mulai<input type="time" name="startTime" required /></label>
+                <label class="form-field">Waktu selesai<input type="time" name="endTime" required /></label>
+              </div>
+              <label class="form-field">Dosen pengampu <span class="optional-label">(opsional)</span><input type="text" name="lecturer" maxlength="70" placeholder="Contoh: Dr. Siti Rahma, M.Kom." /></label>
+              <label class="form-field">Catatan <span class="optional-label">(opsional)</span><textarea name="notes" rows="3" maxlength="200" placeholder="Tautan kelas, perlengkapan, atau catatan lain"></textarea></label>
+              <div class="form-page-actions"><button class="primary-button" type="submit">Simpan jadwal</button></div>
+            </form>
+            <section class="form-page-card schedule-list-card" aria-labelledby="schedule-list-title">
+              <div class="panel-heading"><div><p class="section-kicker">MINGGUAN</p><h2 id="schedule-list-title">Jadwal tersimpan <span class="heading-count" id="schedule-count">0</span></h2></div></div>
+              <div class="schedule-list" id="schedule-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
+  </body>
+</html>
